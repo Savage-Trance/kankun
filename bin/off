@@ -1,0 +1,3 @@
+echo 0 > /sys/class/leds/tp-link:blue:relay/brightness
+exit 1
+

@@ -1,0 +1,13 @@
+#!/bin/sh
+
+value=`cat /sys/class/leds/tp-link:blue:relay/brightness`
+
+if [ "$value" -eq 1 ]
+then
+    echo "Switch is on"
+elif [ "$value" -eq 0 ]
+then
+    echo "Switch if off"
+else
+    echo "Not Found!"
+fi

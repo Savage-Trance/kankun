@@ -1,0 +1,17 @@
+#!/bin/sh
+
+if [ "$#" -lt 1 ]
+then
+  echo "Useage: 1 Paramater:"
+  echo "Minutes until turn off""
+  exit 1
+fi
+      
+sw(){
+   sleep $1m
+   echo 0 > /sys/class/leds/tp-link:blue:relay/brightness
+   exit 1
+}
+
+            
+sw $1 &

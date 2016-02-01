@@ -1,0 +1,44 @@
+
+#!/bin/sh
+
+if [ "$#" -lt 1 ]
+then
+  echo "Useage: offdelay # [minutes]"
+  echo "Minutes until turn off, will run forever wathing for turn On state, and then starting this off timer"
+  exit 1
+fi
+
+sleep 15
+
+timer() {
+
+    rebooted=`cat /tmp/justbooted.txt`
+
+    while :
+    do
+        
+	value=`cat /sys/class/leds/tp-link:blue:relay/brightness`
+
+	if [ "$rebooted"  -eq 1 ]
+        then
+                 echo 0 > /sys/class/leds/tp-link:blue:relay/brightness
+                 echo 0 > /tmp/justbooted.txt
+                 echo "Turned relay off at reboot." > /tmp/delay_off_on_state_found.txt
+       		 rebooted=0
+                                                                       
+	elif [ "$value" -eq 1 ]
+	then
+    		echo -n "Found the switch on at this time: " > /tmp/delay_off_on_state_found.txt
+    		date >> /tmp/delay_off_on_state_found.txt
+    		echo "Will turn off in about $1 minutes" >> /tmp/delay_off_on_state_found.txt
+    		sleep $1m
+    		echo 0 > /sys/class/leds/tp-link:blue:relay/brightness
+    		echo -n "Turned off at: " >> /tmp/delay_off_on_state_found.txt
+    		date >> /tmp/delay_off_on_state_found.txt
+			
+	fi
+	sleep 1m
+    done
+}
+
+timer $1 &

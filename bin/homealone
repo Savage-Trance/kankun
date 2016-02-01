@@ -1,0 +1,28 @@
+#!/bin/sh
+
+if [ "$#" -lt 7 ]
+then
+  echo "Useage: 7 Paramaters:"
+  echo "Initial state: on/off [1/0]"
+  echo "DelayMins"
+  echo "State: on/off [1/0]"
+  echo "DelayMins"      
+  echo "Next state: on/off [1/0]"
+  echo "DelayMins"
+  echo "Final state: on/off [1/0]"
+  exit 1
+fi
+      
+sw(){
+   echo $1 > /sys/class/leds/tp-link:blue:relay/brightness
+   echo "switch will activate in $2 minutes."
+   sleep $2m
+   echo $3 > /sys/class/leds/tp-link:blue:relay/brightness
+   sleep $4m
+   echo $5 > /sys/class/leds/tp-link:blue:relay/brightness  
+   sleep $6m                                              
+   echo $7 > /sys/class/leds/tp-link:blue:relay/brightness   
+}
+
+            
+sw $1 $2 $3 $4 $5 $6 $7  &

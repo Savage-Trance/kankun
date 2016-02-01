@@ -1,0 +1,6 @@
+# Add these two lines below, before the exit in the existing rc.local file
+
+/bin/flagIfRebooted &
+/bin/offdelay 15 &
+
+exit 0
